@@ -1,0 +1,70 @@
+    <html>
+    <head>
+    	<meta charset="UTF-8">
+        <title>Web sockets test</title>
+        <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+          $.ajaxFunction = {
+                "ajax" : function (url, data, fun, style, typeState, asyncState, errcallback) {
+            console.group('ajax信息');
+            if (!url || !typeof (url) === 'string') {
+                console.error('地址不存在');
+            }
+
+            if (!fun || !typeof (fun) === 'function') {
+                console.error('方法不存在');
+            }
+
+            if (!typeState || typeState === '')
+            {
+                typeState = 'POST';
+                console.info('默认了为POST');
+            }
+            if (typeof (asyncState) !== 'boolean' && asyncState !== false) {
+                asyncState = true;
+                console.info('默认了为异步');
+            }
+
+            if (typeof (style) !== 'string') {
+                style = 'json';
+                console.info('默认格式为JSON');
+            }
+
+            $.ajax({
+                cache: true,
+                url: url,
+                data: data,
+                async: asyncState,
+                type: typeState,
+                dataType: style,
+                success: function (data) {
+                    var ajaxData = data;
+                    fun(ajaxData);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (typeof (errcallback) === 'function') {
+                        errcallback([XMLHttpRequest, textStatus, errorThrown]);
+                    }
+                    console.error([JSON.stringify(XMLHttpRequest), JSON.stringify(textStatus), JSON.stringify(errorThrown)]);
+                }
+            });
+            console.groupEnd();
+            return this;
+        }
+            }
+          $.ajaxFunction.ajax(
+            "http://localhost/index.php",
+            {},
+            function(data){
+              alert("退出成功");
+            },'json','GET'
+        );
+        
+        </script>
+    </head>
+    <body>
+       <button id='ToggleConnection' type="button" onclick='ToggleConnectionClicked();'>连接服务器</button><br /><br />
+        <button id='ToggleConnection' type="button" onclick='SendData();'>发送我的名字：beston</button><br /><br />
+        <button id='ToggleConnection' type="button" onclick='seestate();'>查看状态</button><br /><br />
+    </body>
+    </html>
