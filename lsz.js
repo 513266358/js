@@ -1,3 +1,13 @@
+/*
+ * @param string url 链接
+ * @param object data 传出数据
+ * @param function fun 执行方法
+ * @param string style 回调数据格式
+ * @param string typeState ajax方式
+ * @param function beforesend ajax执行前执行方法
+ * @param boolean asyncState 是否异步
+ * @param function errcallback 错误执行方法
+ * */
 ajaxFunction = {
   "ajax" : function (url, data, fun, style, typeState,beforesend, asyncState, errcallback) {
   console.group('ajax信息');
